@@ -214,20 +214,50 @@ DocMeasure.prototype.measureToc = function (node) {
 	var body = [];
 	var numberStyle = node.toc.numberStyle || {};
 	for (var i = 0, l = node.toc._items.length; i < l; i++) {
-		var item = node.toc._items[i];
-		var lineStyle = node.toc._items[i].tocStyle || {};
-		var lineMargin = node.toc._items[i].tocMargin || [ 0, 0, 0, 0 ];
-		body.push([
-			{text: item.text, alignment: 'left', style: lineStyle, margin: lineMargin},
-			{text: '00000', alignment: 'right', _tocItemRef: item, style: numberStyle, margin: [ 0, lineMargin[1], 0, lineMargin[3]]}
-		]);
+	var item = node.toc._items[i];
+		if (item.tocIcon) {
+			var tocHeaderText = [];
+			tocHeaderText.push({
+				text: item.tocNumer,
+				style: ['header', item.tocStyle],
+				bold: true,
+			});
+			tocHeaderText.push({
+				text: item.tocIcon,
+				style: 'icon',
+			});
+			tocHeaderText.push({
+				text: '  ' + item.tocText,
+				style: ['header', item.tocStyle],
+			});
+			body.push([
+				{ text: tocHeaderText, style: item.tocStyle, alignment: 'left', margin: 0},
+				{ text: ''}
+			]);
+		} else {
+			var tocHeaderText = [];
+			tocHeaderText.push({
+				text: item.tocNumer,
+				style: ['header', item.tocStyle],
+			});
+			tocHeaderText.push({
+				text: item.tocText,
+				style: ['header', item.tocStyle],
+				marginLeft: 5,
+			});
+			body.push([
+				{ text: tocHeaderText, style: item.tocStyle, alignment: 'left', marginLeft: 10 },
+				{ text: '00000', style: ['header', item.tocStyle],
+					alignment: 'right', _tocItemRef: item }
+			]);
+		}
 	}
 
 
 	node.toc._table = {
 		table: {
 			dontBreakRows: true,
-			widths: ['*', 'auto'],
+			widths: ['auto', '*'],
 			body: body
 		},
 		layout: 'noBorders'
