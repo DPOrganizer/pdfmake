@@ -231,7 +231,7 @@ DocMeasure.prototype.measureToc = function (node) {
 				style: ['header', item.tocStyle],
 			});
 			body.push([
-				{ text: tocHeaderText, style: item.tocStyle, alignment: 'left', margin: 0},
+				{ text: tocHeaderText, style: item.tocStyle, alignment: 'left', margin: [0, 6, 0, 0]},
 				{ text: ''}
 			]);
 		} else {
